@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState(); 
 }
 
 PremierLeagueModel? premierLeaguaModel;
@@ -31,15 +31,19 @@ class _MyAppState extends State<MyApp> {
       isLoading = false;
     });
 
-    final linkApi = await http.get(
-      Uri.parse(
-          'https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=English%20Premier%20League'),
-    );
-    premierLeaguaModel = PremierLeagueModel.fromJson(
-      json.decode(
-        linkApi.body.toString(),
-      ),
-    );
+    try {
+      final linkApi = await http.get(
+        Uri.parse(
+            'https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=English%20Premier%20League'),
+      );
+      premierLeaguaModel = PremierLeagueModel.fromJson(
+        json.decode(
+          linkApi.body.toString(),
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
     setState(() {
       isLoading = true;
     });
